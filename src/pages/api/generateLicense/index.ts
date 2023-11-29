@@ -1,5 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getLicenseString, writeGoogleSheetRecord } from '@/utils'
+import { writeGoogleSheetRecord } from '@/utils'
+import { generateGenerateLicenseCommandString } from '@/utils/util'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export interface GenerateLicenseParameters {
@@ -25,12 +25,12 @@ export default async function handler(req: _NextApiRequest, res: NextApiResponse
     res.status(405).send({ message: 'Only POST requests allowed' })
     return
   }
-  const { uid, ...licenseParameter } = req.body
+  const licenseParameter = req.body
   const googleSheetSheetName = "Record"
   try {
-    writeGoogleSheetRecord(googleSheetSheetName, { uid, ...licenseParameter })
-    const licenseString = await getLicenseString(uid, googleSheetSheetName)
-    res.status(200).json({ licenseString: licenseString })
+    writeGoogleSheetRecord(googleSheetSheetName, licenseParameter)
+    const generateLicenseCommandString = generateGenerateLicenseCommandString(licenseParameter)
+    res.status(200).json({ licenseString: generateLicenseCommandString })
   } catch (error) {
     console.log(error)
     res.status(500).send({ message: "internal server error" })

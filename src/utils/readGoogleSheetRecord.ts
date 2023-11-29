@@ -1,6 +1,6 @@
 import { GoogleSpreadsheet, GoogleSpreadsheetRow } from 'google-spreadsheet'
 import { getSpreadsheet, initializeAuth } from './googleSheet'
-import GenerateLicenseParameters from './googleSheet/findGoogleSheetRow'
+import { GenerateLicenseParameters } from '@/pages/api/generateLicense'
 
 function convertSpreadsheetToList(spreadsheet: GoogleSpreadsheetRow<Record<string, any>>[]) {
     const rowList: GenerateLicenseParameters[] = []

@@ -1,9 +1,11 @@
 import { readGoogleSheetRecord } from '.'
 import { getGoogleSheetRow } from './googleSheet'
+import delay from './util'
 
 async function getLicenseString(uid: string, googleSheetSheetName: string) {
   while (true) {
     const googleSheetTable = await readGoogleSheetRecord(googleSheetSheetName)
+    await delay(20)
     const matchRow = getGoogleSheetRow(googleSheetTable, uid)
 
     // check if matchRow is found
